@@ -1,0 +1,41 @@
+prompt = "Answer the following multiple-choice question about {task}. You are an expert exam taker. You are an expert in {task}. Using your expertise in {task}, analyze each option carefully and determine the correct answer. Choose only A, B, C, or D.\n\n"
+
+    # Get examples from the same task/subject
+    examples = sample_data[sample_data['task'] == task].head(10)
+    
+    # Add examples
+    for _, example in examples.iterrows():
+        prompt += f"Question: {example['input']}\n"
+        prompt += f"A: {example['A']}\n"
+        prompt += f"B: {example['B']}\n"
+        prompt += f"C: {example['C']}\n"
+        prompt += f"D: {example['D']}\n"
+        prompt += f"Answer: {example['target']}\n\n"
+    
+    # Add our question
+    prompt += f"Question: {question}\n"
+    prompt += f"A: {options['A']}\n"
+    prompt += f"B: {options['B']}\n"
+    prompt += f"C: {options['C']}\n"
+    prompt += f"D: {options['D']}\n"
+    prompt += "Answer:"
+
+    prompt += """Let's think step by step to find the correct answer:
+    1. First, understand what the question is asking.
+    2. Consider each option carefully.
+    3. Eliminate incorrect options.
+    4. Determine the most accurate answer.
+
+    Explain your reasoning for each option:
+    Option A reasoning:
+    Option B reasoning:
+    Option C reasoning:
+    Option D reasoning:
+    
+    Write your answer in the following pattern:
+    Final answer is: A, B, C or D.
+    """
+
+Gemini-2.0-Flash
+
+few_shot, Chain-of-thought, Self-consistency, Domain-specific
